@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import ClusteredChart from './ClusteredChart';
 
-function App() {
+const App = () => {
+  const [formValue, setFormValue] = useState('');
+
+  const [showChildren, setShowChildren] = useState(true);
+
+  const onChangeHandler = (event) => {
+    setShowChildren(false);
+    setFormValue(event.target.value);
+  };
+
+  useEffect(() => {
+    setShowChildren(true);
+  }, [formValue]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <>
+      <div>
+        <select
+          id="stateSelect"
+          onChange={onChangeHandler}
+          value={formValue}
+          name="stateSelect"
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <option value="none">(None)</option>
+          <option value="data_SalesType">Sales Type</option>
+          <option value="data_Gender">Gender</option>
+          <option value="data_AgeGroup">Age Group</option>
+          <option value="data_Race">Race Group</option>
+          <option value="data_CategoryType">Category Type</option>
+        </select>
+      </div>
+
+      {showChildren ? <ClusteredChart onDataChange={formValue} /> : null}
+    </>
   );
-}
+};
 
 export default App;
